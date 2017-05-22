@@ -107,7 +107,7 @@ class Downloader extends Base {
   }
 
   _normalizeOS(os) {
-    if (os.match(/win/i)) {
+    if (os === 'win32') {
       return 'win';
     }
     else {
