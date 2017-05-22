@@ -1,6 +1,6 @@
 {
   "name": "youtube-dl-node",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "youtube-dl wrapper for node.js",
   "main": "./dist/index.js",
   "files": [
