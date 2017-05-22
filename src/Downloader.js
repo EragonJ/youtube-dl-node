@@ -2,14 +2,13 @@ import path from 'path';
 import fs from 'fs';
 import request from 'request';
 import rp from 'request-promise';
+import Base from './Base';
 
-class Downloader {
-  constructor() {
+class Downloader extends Base {
+  constructor(props) {
+    super(props);
     this._url = 'https://rg3.github.io/youtube-dl/download.html';
     this._regex = /https:\/\/yt-dl\.org\/downloads\/(.*?)\/youtube-dl/;
-    this._saveToPath = '';
-    this._ytdlFileName = 'youtube-dl';
-    this._versionFileName = 'VERSION';
   }
 
   _getLatestInfo() {
@@ -34,8 +33,8 @@ class Downloader {
   }
 
   _getLocalVersion() {
-    const fullPath = path.join(this._saveToPath, this._versionFileName);
     return new Promise((resolve, reject) => {
+      const fullPath = this._getVersionFilePath();
       fs.readFile(fullPath, 'utf8', (error, data) => {
         if (error) {
           if (error.code === 'ENOENT') {
@@ -53,8 +52,8 @@ class Downloader {
   }
 
   _writeLocalVersion(version = '') {
-    const fullPath = path.join(this._saveToPath, this._versionFileName);
     return new Promise((resolve, reject) => {
+      const fullPath = this._getVersionFilePath();
       fs.writeFile(fullPath, version, (error) => {
         if (error) {
           reject(error);
@@ -71,7 +70,7 @@ class Downloader {
       return Promise.reject('no url');
     }
 
-    let to = path.join(this._saveToPath, this._ytdlFileName);
+    let to = this._getYtdlBinaryPath();
     if (os === 'win') {
       url += '.exe';
       to += '.exe';
@@ -116,18 +115,9 @@ class Downloader {
     }
   }
 
-  setPath(userPath) {
-    this._saveToPath = path.normalize(userPath);
-  }
-
   save(os) {
-    if (this._saveToPath === '') {
-      return Promise.reject('call setPath() before saving');
-    }
-    
-    os = this._normalizeOS(os);
-
     return this._checkVersion().then((result) => {
+      os = this._normalizeOS(os);
       let [isNewer, url, version] = result;
 
       if (isNewer) {
