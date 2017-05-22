@@ -3,6 +3,9 @@
   "version": "0.0.2",
   "description": "youtube-dl wrapper for node.js",
   "main": "./dist/index.js",
+  "files": [
+    "dist"
+  ],
   "devDependencies": {
     "babel-cli": "^6.24.1",
     "babel-preset-es2015": "^6.24.1",
