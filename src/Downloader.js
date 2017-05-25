@@ -121,8 +121,9 @@ class Downloader extends Base {
       let [isNewer, url, version] = result;
 
       if (isNewer || force) {
-        return this._writeLocalVersion(version).then(
-          this._writeYtdlFile(url, os));
+        return this._writeLocalVersion(version).then(() => {
+          return this._writeYtdlFile(url, os);
+        })
       }
       else {
         return Promise.resolve();
