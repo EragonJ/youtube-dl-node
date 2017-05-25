@@ -115,12 +115,12 @@ class Downloader extends Base {
     }
   }
 
-  save(os) {
+  save(os, force=false) {
     return this._checkVersion().then((result) => {
       os = this._normalizeOS(os);
       let [isNewer, url, version] = result;
 
-      if (isNewer) {
+      if (isNewer || force) {
         return this._writeLocalVersion(version).then(
           this._writeYtdlFile(url, os));
       }
