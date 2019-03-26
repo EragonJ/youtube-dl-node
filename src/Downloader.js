@@ -7,7 +7,7 @@ import Base from './Base';
 class Downloader extends Base {
   constructor(props) {
     super(props);
-    this._url = 'https://rg3.github.io/youtube-dl/download.html';
+    this._url = 'https://ytdl-org.github.io/youtube-dl/download.html';
     this._regex = /https:\/\/yt-dl\.org\/downloads\/(.*?)\/youtube-dl/;
   }
 
